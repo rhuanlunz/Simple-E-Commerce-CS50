@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<title>Error {{ status_code }}</title>
+
+		<link rel="stylesheet" href="{{ url_for('static', filename='frameworks/bootstrap-5.3.3-dist/css/bootstrap.css') }}">
+	</head>
+	<body>
+		<main class="d-flex vh-100 align-items-center justify-content-center">
+			<div class="shadow-lg p-4 rounded-5 text-center">
+				<h1 class="fw-bold"> ~ Error <a class="text-danger" href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/{{ status_code }}" target="_blank">{{ status_code }}</a>.</h1>
+				<p class="fst-italic">{{ description }}.</p>
+				<a href="" class="fw-bold">Go back</button>
+			</div>
+		</main>
+	</body>
+</html>
+
+

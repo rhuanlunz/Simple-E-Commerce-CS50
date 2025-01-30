@@ -1,0 +1,48 @@
+{% extends "login/main.html" %}
+
+{% block title %}
+	Sign in
+{% endblock %}
+
+{% block header %}
+	<div class="col h1 m-0">Sign in</div>
+	<div class="w-100"></div>
+	<div class="col">Welcome back!</div>
+{% endblock %}
+
+{% block form %}
+	<div class="d-flex flex-column">
+		<div class="col mb-2">
+			<input autofocus type="email" maxlength="254" class="form-control rounded-5" id="email" placeholder="Email">
+		</div>
+						
+		<div class="col mb-2 position-relative">
+			<input type="password" maxlength="128" class="form-control rounded-5" id="password" placeholder="Password">
+			<span class="show position-absolute end-0 top-50 translate-middle material-icons">visibility_off</span>
+		</div>
+
+		<div class="col mb-2 text-center">
+			<a id="forgot" class="text-primary fw-bold" href="forgot">Forgot password?</a>
+		</div>
+					
+		<div class="col">
+			<button type="button" id="send" class="btn btn-primary fw-bold p-2 rounded-5 w-100">Sign in</button>
+		</div>
+	</div>
+{% endblock %}
+
+{% block end %}
+	<div class="position-relative">
+		<hr>
+		<small class="position-absolute start-50 top-50 end-50 translate-middle text-secondary pb-1">or</small>
+	</div>
+
+	<div class="row">
+		<div class="col">
+			<a class="btn btn-outline-dark fw-bold p-2 rounded-5 w-100" href="create_account">Create account</a>
+		</div>
+	</div>
+	
+	<script src="{{ url_for('static', filename='js/login/login.js') }}"></script>
+{% endblock %}
+

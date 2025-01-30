@@ -1,0 +1,31 @@
+{% extends "login/main.html" %}
+
+{% block title %}
+	Forgot password?
+{% endblock %}
+
+{% block header %}
+	<div class="col h1">Forgot password?</div>
+	<div class="w-100"></div>				
+	<div class="col">Enter your e-mail address and we'll send a link to reset your password.</div>
+{% endblock %}
+
+{% block form %}
+	<form method="post">
+		<div class="col mb-3">
+			<input required autofocus type="email" maxlength="254" class="form-control rounded-5" name="email" placeholder="Email">
+		</div>
+		
+		<div class="col">
+			<div class="row">
+				<div class="col">
+					<a class="btn btn-outline-dark fw-bold p-2 rounded-5 w-100" href="login">Back</a>
+				</div>
+				<div class="col">
+					<button type="submit" class="btn btn-primary fw-bold p-2 rounded-5 w-100">Send</button>
+				</div>
+			</div>
+		</div>	
+	</form>
+{% endblock %}
+
