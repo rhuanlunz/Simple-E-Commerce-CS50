@@ -1,26 +1,21 @@
-document.querySelector("#send").addEventListener("click", async () => {
-	// Get user data
-	const email = document.querySelector("#email");
-	const password = document.querySelector("#password");	
+const form = document.forms[0];
 
-	// Focus missing inputs
-	if (!email.value) {
-		email.focus();
-	}
-	else if (!password.value) {
-		password.focus();
-	}
+form.addEventListener("submit", async function(e) {
+	e.preventDefault();
+
+	// Get form user data
+	const credsForm = new FormData(this);
 
 	// Send user data
-	const msg = await send({email: email.value, password: password.value});
+	const msg = await sendForm(credsForm, globalThis.location.href, "/user");
 	
 	// Handle return messages
 	switch(msg) {
-		case "Invalid email!":
-			email.focus();
+		case "Invalid email!" || "Email required!":
+			this.elements["email"].focus();
 			break;
-		case "Wrong email or password!":
-			password.focus();
+		case "Wrong email or password!" || "Password required":
+			this.elements["password"].focus();
 			break;
 	}
 });

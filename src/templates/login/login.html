@@ -1,34 +1,30 @@
-{% extends "login/main.html" %}
+{% extends "login/index.html" %}
 
 {% block title %}
 	Sign in
 {% endblock %}
 
 {% block header %}
-	<div class="col h1 m-0">Sign in</div>
-	<div class="w-100"></div>
-	<div class="col">Welcome back!</div>
+	<div class="h1 m-0">Sign in</div>
+	<div>Welcome back!</div>
 {% endblock %}
 
 {% block form %}
-	<div class="d-flex flex-column">
-		<div class="col mb-2">
-			<input autofocus type="email" maxlength="254" class="form-control rounded-5" id="email" placeholder="Email">
-		</div>
+	<form method="post">
+		{{ form.csrf_token }}
+		{{ form.email }}
 						
-		<div class="col mb-2 position-relative">
-			<input type="password" maxlength="128" class="form-control rounded-5" id="password" placeholder="Password">
+		<div class="mb-2 position-relative">
+			{{ form.password }}
 			<span class="show position-absolute end-0 top-50 translate-middle material-icons">visibility_off</span>
 		</div>
 
-		<div class="col mb-2 text-center">
+		<div class="mb-2 text-center">
 			<a id="forgot" class="text-primary fw-bold" href="forgot">Forgot password?</a>
 		</div>
-					
-		<div class="col">
-			<button type="button" id="send" class="btn btn-primary fw-bold p-2 rounded-5 w-100">Sign in</button>
-		</div>
-	</div>
+
+		{{ form.submit }}
+	</form>
 {% endblock %}
 
 {% block end %}

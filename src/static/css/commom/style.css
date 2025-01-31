@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+
+body {
+	font-family: "Outfit", serif;
+}
+
+.btn {
+    transition: transform .1s, color .3s, background-color .3s;
+}
+
+.btn:active {
+	transform: scale(0.97);
+}
+
+.show {
+	cursor: pointer;
+}

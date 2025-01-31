@@ -10,10 +10,9 @@
 	</head>
 	<body>
 		<main class="d-flex vh-100 align-items-center justify-content-center">
-			<div class="shadow-lg p-4 rounded-5 text-center">
-				<h1 class="fw-bold"> ~ Error <a class="text-danger" href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/{{ status_code }}" target="_blank">{{ status_code }}</a>.</h1>
+			<div class="shadow-lg p-4 rounded-5 text-center w-75">
+				<h1 class="fw-bold"><a class="text-danger" href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/{{ status_code }}" target="_blank">{{ status_code }} - {{ error_name }}</a>.</h1>
 				<p class="fst-italic">{{ description }}.</p>
-				<a href="" class="fw-bold">Go back</button>
 			</div>
 		</main>
 	</body>

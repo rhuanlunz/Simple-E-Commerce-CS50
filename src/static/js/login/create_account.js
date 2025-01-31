@@ -1,37 +1,27 @@
-document.querySelector("#send").addEventListener("click", async () => {
-	// Get user data
-	const username = document.querySelector("#username");
-	const email = document.querySelector("#email");
-	const password = document.querySelector("#password");	
-	const confirmation = document.querySelector("#confirmation");
+const form = document.forms[0];
 
-	// Focus missing input fields
-	if (!username.value) {
-		username.focus();
-	}
-	else if (!email.value) {
-		email.focus();
-	}
-	else if (!password.value) {
-		password.focus();
-	}
-	else if (!confirmation.value) {
-		confirmation.focus();
-	}
+form.addEventListener("submit", async function(e) {
+	e.preventDefault();
+
+	// Get form user data
+	const credsForm = new FormData(this);
 
 	// Send user data
-	const msg = await send({username: username.value, email: email.value, password: password.value, confirmation: confirmation.value});
+	const msg = await sendForm(credsForm, globalThis.location.href, "/user");
 
 	// Handle return messages
 	switch(msg) {
-		case "Username already exists!":
-			username.focus();
+		case "Username required!" || "Username already exists!":
+			this.elements["username"].focus();
 			break;
-		case "Email already exists!", "Invalid email!":
-			email.focus();
+		case "Invalid email!" || "Email required!" || "Email already exists!":
+			this.elements["email"].focus();
 			break;
-		case "Passwords don't match!":
-			confirmation.focus();
+		case "Password required":
+			this.elements["password"].focus();
+			break;
+		case "Passwords don't match!" || "Password confirmation required":
+			this.elements["confirmation"].focus();
 			break;
 	}
 });
