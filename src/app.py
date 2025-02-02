@@ -31,6 +31,7 @@ db.init_app(app)
 
 with app.app_context():
     db.create_all()
+    Products().initialize(db.session)
 
 
 # Setup Flask session
@@ -43,9 +44,27 @@ def error(e):
     return render_template("error/error.html", status_code=e.code, error_name=e.name, description=e.description)
 
 
-@app.route("/")
+@app.route("/", methods=["GET"])
 def index():
-    return "Hello, World!"
+    return redirect(url_for("shop"))
+
+
+@app.route("/shop", methods=["GET"])
+def shop():
+    """Get and show all products in database"""
+
+    products = {}
+    data = db.session.query(Products).all()
+
+    for i in data:
+        products[i.name] = {
+            "description": i.description, 
+            "price": i.price, 
+            "category": i.category, 
+            "id": i.id
+        }
+
+    return render_template("shop/index.html", products=products)
 
 
 @app.route("/user", methods=["GET", "POST"])
@@ -67,32 +86,29 @@ def user():
             email = form.email.data
             password = form.password.data
 
-            stmt = db.select(User.username, User.email, User.password).where(User.username == session["user"])
-            user = db.session.execute(stmt).first()
+            user = db.session.query(User).filter_by(username=session["user"], email=session["email"]).first()
 
             # Verify if username exists only if current username is different of session username
-            if session["user"] != username:
-                stmt = db.select(User).where(User.username == username)
-                if db.session.execute(stmt).first():
+            if user.username != username:
+                if db.session.query(User).filter_by(username=username).first():
                     return jsonify({"message": "Username already exists!"}), 400
                 update = True
 
             # Verify if email exists only if current email is different of session email
-            if session["email"] != email:
-                stmt = db.select(User).where(User.email == email)
-                if db.session.execute(stmt).first():
+            if user.email != email:
+                if db.session.query(User).filter_by(email=email).first():
                     return jsonify({"message": "Email already exists!"}), 400
                 update = True
 
             if not password and update:
-                stmt = db.update(User).where(User.username == user[0]).values(
+                stmt = db.update(User).where(User.username == user.username).values(
                     username=username,
                     email=email
                 )
                 changes = True
             elif password:
                 if 3 < len(password) < 129: 
-                    stmt = db.update(User).where(User.username == user[0]).values(
+                    stmt = db.update(User).where(User.username == user.username).values(
                         username=username,
                         email=email,
                         password=generate_password_hash(password)
@@ -120,6 +136,56 @@ def user():
     return render_template("user/index.html", form=form, delForm=deleteForm(), username=session["user"], email=session["email"])
 
 
+@app.route("/user/cart", methods=["GET"])
+def cart():
+    """Show all items in user cart"""
+
+    cart = []
+    user_id = db.session.query(User.id).filter_by(username=session["user"], email=session["email"]).first()
+    products = db.session.query(Cart.product_id).filter_by(user_id=user_id.id).all()
+
+    for i in products:
+        cart.append(db.session.query(Products).filter_by(id=i.product_id).first())
+
+    return render_template("cart/index.html", cart=cart)
+
+
+@app.route("/user/cart/add", methods=["POST"])
+def add_cart():
+    """Add item in user cart"""
+
+    data = request.get_json()
+    product = db.session.query(Products.id).filter_by(id=data["product_id"]).first()
+
+    user_id = db.session.query(User.id).filter_by(username=session["user"], email=session["email"]).first()
+
+    item = Cart(
+        user_id=user_id.id,
+        product_id=product.id
+    )
+
+    db.session.add(item)
+    db.session.commit()
+
+    return str(product)
+
+
+@app.route("/user/cart/remove", methods=["POST"])
+def remove_cart():
+    """Remove item from user cart"""
+
+    data = request.get_json()
+    product = db.session.query(Products.id).filter_by(id=data["product_id"]).first()
+    user = db.session.query(User.id).filter_by(username=session["user"], email=session["email"]).first()
+    
+    item = db.session.query(Cart).filter_by(user_id=user.id, product_id=product.id).first()
+
+    db.session.delete(item)
+    db.session.commit()
+
+    return jsonify({"message": "success"}), 200
+
+
 @app.route("/user/delete", methods=["POST"])
 def delete_account():
     """Delete user account"""
@@ -134,12 +200,11 @@ def delete_account():
         password = form.password.data
 
         # Get user id and password
-        stmt = db.select(User.id, User.password).where(User.username == session["user"])
-        user = db.session.execute(stmt).first()
+        user = db.session.query(User).filter_by(username=session["user"]).first()
 
         # Verify if password hashes
-        if check_password_hash(user[1], password):
-            db.session.execute(db.delete(User).where(User.id == user[0]))
+        if check_password_hash(user.password, password):
+            db.session.delete(user)
             db.session.commit()
 
             return jsonify({"message": "success"}), 200
@@ -148,11 +213,6 @@ def delete_account():
 
     # Return always the first error
     return jsonify({"message": list(form.errors.values())[0][0]}), 400
-
-
-@app.route("/user/cart")
-def cart():
-    return render_template("user/index.html", username=session["user"])
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -172,16 +232,15 @@ def login():
             password = form.password.data
 
             # Get user data
-            stmt = db.select(User.username, User.password).where(User.email == email)
-            user = db.session.execute(stmt).first()
+            user = db.session.query(User).filter_by(email=email).first()
 
             # Checks user existence and password
-            if user is None or not check_password_hash(user[1], password):
+            if user is None or not check_password_hash(user.password, password):
                 return jsonify({"message": "Wrong email or password!"}), 400
 
             # Create current user session
-            session["user"] = user[0]
-            session["email"] = email
+            session["user"] = user.username
+            session["email"] = user.email
 
             return jsonify({"message": "success"}), 200
         else:
@@ -210,13 +269,11 @@ def create_account():
             confirmation = form.confirmation.data
 
             # Verify if username exists
-            stmt = db.select(User).where(User.username == username)
-            if db.session.execute(stmt).first():
+            if db.session.query(User).filter_by(username=username).first():
                 return jsonify({"message": "Username already exists!"}), 400
 
             # Verify if email exists
-            stmt = db.select(User).where(User.email == email)
-            if db.session.execute(stmt).first():
+            if db.session.query(User).filter_by(email=email).first():
                 return jsonify({"message": "Email already exists!"}), 400
 
             # Ensures that passwords are equal
@@ -250,7 +307,7 @@ def forgot():
     return render_template("login/forgot.html")
 
 
-@app.route("/logout")
+@app.route("/logout", methods=["GET"])
 def logout():
     """Logout user current session"""
     session.clear()

@@ -2,3 +2,4 @@ Flask
 Flask-Session
 Flask-SQLAlchemy
 Flask-WTF
+email_validator
