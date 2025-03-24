@@ -1,41 +1,40 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% extends "models/login.html" %}
 
-		<title>{% block title %}{% endblock %}</title>
+{% block title %}
+	Sign in
+{% endblock %}
 
-		<link rel="stylesheet" href="{{ url_for('static', filename='frameworks/bootstrap-5.3.3-dist/css/bootstrap.css') }}">
-		<link rel="stylesheet" href="{{ url_for('static', filename='css/commom/style.css') }}">
-		<link rel="stylesheet" href="{{ url_for('static', filename='css/login/login.css') }}">
+{% block header %}
+	<div class="h1 m-0">Sign in</div>
+	<div>Welcome back!</div>
+{% endblock %}
 
-		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	</head>
-	<body>
-		<main class="d-flex flex-column justify-content-center vw-100 vh-100">
-			<div id="content" class="container shadow-lg rounded-5 p-4">
-				<div class="toast align-items-center text-bg-danger mt-1 rounded-5 position-absolute top-0 start-50 translate-middle-x" role="alert" aria-live="assertive" aria-atomic="true">
-					<div class="d-flex w-100 justify-content-center">
-						<div class="toast-body fs-5"></div>
-					</div>
-				</div>
+{% block form %}
+	<form method="post">
+		{{ form.csrf_token }}
+		{{ form.email }}
+						
+		<div class="mb-2 position-relative">
+			{{ form.password }}
+			<span class="show position-absolute end-0 top-50 translate-middle material-icons">visibility_off</span>
+		</div>
 
-				<div class="row mb-3">
-					{% block header%}{% endblock %}
-				</div>
+		{{ form.submit }}
+	</form>
+{% endblock %}
 
-				<div class="row">
-					{% block form %}{% endblock %}
-				</div>
+{% block end %}
+	<div class="position-relative">
+		<hr>
+		<small class="position-absolute start-50 top-50 end-50 translate-middle text-secondary pb-1">or</small>
+	</div>
 
-				{% block end %}{% endblock %}
-			</div>
-		</main>
-
-		<script src="{{ url_for('static', filename='frameworks/bootstrap-5.3.3-dist/js/bootstrap.js') }}"></script>
-		<script src="{{ url_for('static', filename='js/commom/utils.js') }}"></script>
-		<script src="{{ url_for('static', filename='js/commom/password_show.js') }}"></script>
-	</body>
-</html>
+	<div class="row">
+		<div class="col">
+			<a class="btn btn-outline-dark fw-bold p-2 rounded-5 w-100" href="create_account">Create account</a>
+		</div>
+	</div>
+	
+	<script src="{{ url_for('static', filename='js/login/login.js') }}"></script>
+{% endblock %}
 

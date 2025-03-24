@@ -5,119 +5,42 @@
 		  "description": "Cotton t-shirt with a modern and comfortable print.",
 		  "price": 49.90,
 		  "category": "Clothing",
-		  "image_path": "images/products/Graphic_T_Shirt.jpg"
+		  "image_path": "images/products/graphic_t_shirt.jpg"
 		},
 		{
 		  "name": "Jeans",
 		  "description": "Slim fit jeans, perfect for everyday wear.",
 		  "price": 89.90,
 		  "category": "Clothing",
-		  "image_path": "images/products/Jeans.jpg"
+		  "image_path": "images/products/jeans.jpg"
 		},
 		{
 		  "name": "Sports Shoes",
 		  "description": "Lightweight and breathable shoes, perfect for physical activities.",
 		  "price": 199.90,
 		  "category": "Footwear",
-		  "image_path": "images/products/Sports_Shoes.jpg"
+		  "image_path": "images/products/sports_shoes.jpg"
 		},
 		{
 		  "name": "Leather Jacket",
 		  "description": "Synthetic leather jacket, classic and timeless style.",
 		  "price": 299.90,
 		  "category": "Clothing",
-		  "image_path": "images/products/Leather_Jacket.jpg"
+		  "image_path": "images/products/leather_jacket.jpg"
 		},
 		{
 		  "name": "Digital Watch",
 		  "description": "Digital watch with stopwatch and water resistance.",
 		  "price": 129.90,
 		  "category": "Accessories",
-		  "image_path": "images/products/Digital_Watch.jpg"
+		  "image_path": "images/products/digital_watch.jpg"
 		},
 		{
 		  "name": "School Backpack",
 		  "description": "Spacious backpack with multiple compartments and modern design.",
 		  "price": 79.90,
 		  "category": "Bags",
-		  "image_path": "images/products/School_Backpack.jpg"
-		},
-		{
-		  "name": "Bluetooth Headphones",
-		  "description": "Wireless headphones with noise cancellation.",
-		  "price": 149.90,
-		  "category": "Electronics",
-		  "image_path": "images/products/Bluetooth_Headphones.jpg"
-		},
-		{
-		  "name": "University Notebook",
-		  "description": "Notebook with 200 pages, ideal for notes and studies.",
-		  "price": 29.90,
-		  "category": "Stationery",
-		  "image_path": "images/products/University_Notebook.jpg"
-		},
-		{
-		  "name": "Personalized Mug",
-		  "description": "Ceramic mug with an exclusive and durable design.",
-		  "price": 39.90,
-		  "category": "Home & Kitchen",
-		  "image_path": "images/products/Personalized_Mug.jpg"
-		},
-		{
-		  "name": "Men's Perfume",
-		  "description": "Perfume with a striking and long-lasting fragrance.",
-		  "price": 199.90,
-		  "category": "Beauty",
-		  "image_path": "images/products/Mens_Perfume.jpg"
-		},
-		{
-		  "name": "Makeup Kit",
-		  "description": "Complete kit with eyeshadows, lipsticks, and blush.",
-		  "price": 89.90,
-		  "category": "Beauty",
-		  "image_path": "images/products/Makeup_Kit.jpg"
-		},
-		{
-		  "name": "Gaming Chair",
-		  "description": "Ergonomic chair with height adjustment and armrest support.",
-		  "price": 499.90,
-		  "category": "Furniture",
-		  "image_path": "images/products/Gaming_Chair.jpg"
-		},
-		{
-		  "name": "Smartphone",
-		  "description": "Latest model smartphone with high-resolution camera.",
-		  "price": 799.90,
-		  "category": "Electronics",
-		  "image_path": "images/products/Smartphone.jpg"
-		},
-		{
-		  "name": "Wireless Charger",
-		  "description": "Fast wireless charger compatible with most smartphones.",
-		  "price": 29.90,
-		  "category": "Electronics",
-		  "image_path": "images/products/Wireless_Charger.jpg"
-		},
-		{
-		  "name": "Fitness Tracker",
-		  "description": "Wearable device to monitor your fitness activities.",
-		  "price": 99.90,
-		  "category": "Fitness",
-		  "image_path": "images/products/Fitness_Tracker.jpg"
-		},
-		{
-		  "name": "Coffee Maker",
-		  "description": "Automatic coffee maker with programmable settings.",
-		  "price": 149.90,
-		  "category": "Home & Kitchen",
-		  "image_path": "images/products/Coffee_Maker.jpg"
-		},
-		{
-		  "name": "Electric Kettle",
-		  "description": "Quick boiling electric kettle with temperature control.",
-		  "price": 59.90,
-		  "category": "Home & Kitchen",
-		  "image_path": "images/products/Electric_Kettle.jpg"
+		  "image_path": "images/products/school_backpack.jpg"
 		}
 	]
 }

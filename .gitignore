@@ -1,6 +1,4 @@
 .venv
-.git/
-structure.txt
+.git
 src/__pycache__/*
-src/flask_session/*
 src/instance/*

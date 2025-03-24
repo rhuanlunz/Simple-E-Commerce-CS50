@@ -1,6 +1,9 @@
-from sqlalchemy import Integer, String, Numeric, ForeignKey, select, and_
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
-from json import loads
+from datetime           import datetime
+from json               import loads
+
+from sqlalchemy.orm     import DeclarativeBase, Mapped, mapped_column, relationship
+from sqlalchemy         import Integer, String, DateTime, Numeric, ForeignKey
+from sqlalchemy.sql     import func
 
 
 class Base(DeclarativeBase):
@@ -14,8 +17,10 @@ class User(Base):
     username: Mapped[str] = mapped_column(String(30), unique=True, nullable=False)
     email: Mapped[str] = mapped_column(String(254), unique=True, nullable=False)
     password: Mapped[str] = mapped_column(String(128), nullable=False)
+    creation_date: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
 
     cart = relationship("Cart", back_populates="user")
+
 
     def __repr__(self):
         return f"User(id={self.id}, username='{self.username}', email='{self.email}')"
@@ -53,15 +58,15 @@ class Products(Base):
                 image_path=i["image_path"]
             )
             
-            stmt = select(table).where(and_(
-                table.name == product.name, 
-                table.description == product.description, 
-                table.price == product.price,
-                table.category == product.category,
-                table.image_path == product.image_path
-            ))
+            result = session.query(table).filter_by(
+                name=product.name, 
+                description=product.description, 
+                price=product.price,
+                category=product.category,
+                image_path=product.image_path
+            ).first()
 
-            if not session.execute(stmt).first():
+            if not result:
                 session.add(product)
         session.commit()
 
